@@ -1,17 +1,16 @@
 #Black Jack game
+import random
+import os
+
+def clear_screen():
+    os.system("cls" if os.name == "nt" else "clear")
+
+sum_cards = 0
 
 print("Club -> \u2663")
 print("Spades -> \u2660")
 print("Diamond -> \u2666")
 print("Heart -> \u2665")
-
-import random
-import os
-def clear_screen():
-    os.system("cls" if os.name == "nt" else "clear")
-
-#Dictionary of the cards in a deck
-sum_cards = 0
 
 cards = {
     '\u2663A':11 if sum_cards<21 else 1,
@@ -76,19 +75,17 @@ random.shuffle(shuffled_deck)
 dsum_list = []
 dealer_cards = []
 
-# Lists for Player
+# Lists for player
 psum_list = []
 player_cards = []
 
-#class for Dealer
+
 class Dealer():
-    
     def __init__ (self):
         self.dsum = 0
         self.dcards = {}
 
     def dhand(self):
-        
         dealer_cards.append(shuffled_deck[0])
         shuffled_deck.remove(shuffled_deck[0])
         dealer_cards.append(shuffled_deck[0])
@@ -97,8 +94,8 @@ class Dealer():
                 
                 
     def dscore(self):
-        for k, v in cards.items():
-            if k in dealer_cards:
+        for t, v in cards.items():
+            if t in dealer_cards:
                 self.dsum = 0
                 dsum_list.append(v)
                 
@@ -108,7 +105,7 @@ class Dealer():
         
         
 
-# class for the user
+
 class Player():
     
     def __init__ (self, player):
@@ -135,8 +132,8 @@ class Player():
 
 
 
-# class for the UI
-class UI(Player, Dealer):
+
+class program(Player, Dealer):
     def __init__ (self):
         self.player = Player
         self.dealer = Dealer
@@ -144,7 +141,6 @@ class UI(Player, Dealer):
     
     # dealer hits if dsum < 17 | if dealer breaks (dsum > 21) then game over, player wins | if dealer hits Black Jack (dsum = 21) then game over, Dealer Wins
     # hit_response would you like to Hit or Stay? if hit get another card. if stay, reveal the dealers cards and complete the round. 
-    # give chips, take chips or nothing
     def hit(self):
         Dealer.dhand(self) # puts 2 cards in the Dealer's Hand
         Dealer.dscore(self) # adds the sum of the values of the dealer's cards
@@ -153,15 +149,12 @@ class UI(Player, Dealer):
 
 
         while True:
-            
             print("Dealer's Cards:")
             print(f'[ ] [{dealer_cards[1]}]')
             print('\n')
             print("Your Cards:")
             print(player_cards)
             print(f'Your Cards = {self.psum}')
-            # print(f'dsum_list = {dsum_list}') # test dsum_list
-            # print(f'psum_list = {psum_list}') # test psum_list
             hit = input("Would you like to HIT/STAY? ")
             if hit.lower() == 'stay':
 
@@ -277,7 +270,7 @@ class UI(Player, Dealer):
             elif start_response.lower() == 'n':
                 break
             else:
-                print("Invalid Response, it's literally just 1 letter, you can do this Buttercup")
+                print("Invalid Response")
 
-run = UI()
+run = program()
 run.game()
